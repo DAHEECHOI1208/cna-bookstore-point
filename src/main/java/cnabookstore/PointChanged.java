@@ -8,6 +8,16 @@ public class PointChanged extends AbstractEvent {
     private String pointUseYn;
     private Long pointId;
 
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    private Long orderId;
+
     public PointChanged(){
         super();
     }

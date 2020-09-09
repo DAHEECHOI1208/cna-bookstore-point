@@ -1,27 +1,61 @@
+
 package cnabookstore;
 
 public class Ordered extends AbstractEvent {
 
-//    private Long id;
     private Long orderId;
     private Long bookId;
+
+    public Long getPointId() {
+        return pointId;
+    }
+
+    public void setPointId(Long pointId) {
+        this.pointId = pointId;
+    }
+
+    private Long pointId;
     private Long customerId;
     private Integer quantity;
+
+    public Integer getPointValue() {
+        return pointValue;
+    }
+
+    public void setPointValue(Integer pointValue) {
+        this.pointValue = pointValue;
+    }
+
+    private Integer pointValue;
+
+    public String getPointUseYn() {
+        return pointUseYn;
+    }
+
+    public void setPointUseYn(String pointUseYn) {
+        this.pointUseYn = pointUseYn;
+    }
+
+    private String pointUseYn;
     private String deliveryAddress;
     private String orderStatus;
 
-//    public Long getId() {
-//        return id;
-//    }
+    public String getCustomerName() {
+        return customerName;
+    }
 
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
-    public Long getId() {
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    private String customerName;
+
+
+    public Long getOrderId() {
         return orderId;
     }
 
-    public void setId(Long orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
     public Long getBookId() {
