@@ -1,17 +1,19 @@
-# cna-bookstore
+# cna-bookstore(revision_version)
 
 ## User Scenario
 ```
 * 고객 또는 고객 운영자는 고객정보를 생성한다.
 * 북 관리자는 판매하는 책의 종류와 보유 수량을 생성하고 수정할 수 있다.
 * 고객은 책의 주문과 취소가 가능하며 주문 정보의 수정은 없다.
-* 고객이 주문을 생성할 때 고객정보와 Book 정보가 있어야 한다.
+* 고객이 주문을 생성할 때 고객정보와 Book 정보와 Point 정보가 있어야 한다.(revision_version)
   - Order -> Customer 동기호출
+  - Order -> Point 동기호출
   - Order -> BookInventory 동기호출
   - Customer 서비스가 중지되어 있더라도 주문은 생성하되 주문상태를 "Customer_Not_Verified"로 설정하여 타 서비스로의 전달은 진행하지 않는다.
 * 주문 시에 재고가 없더라도 주문이 가능하다.
   - 주문 상태는 “Ordered”
 * 주문 취소는 "Ordered" 상태일 경우만 가능하다.
+* 주문 시에 Point 정보를 참조하여 Discount 가능하다.(revision_version)
 * 배송준비는 주문 정보를 받아 이뤄지며 재고가 부족한 경우, 책 입고가 이뤄져서 재고 수량이 충분한 경우에 배송 준비가 완료되었음을 알린다.
 * 배송은 주문 생성 정보를 받아서 배송을 준비하고 주문 상품 준비 정보를 받아서 배송을 시작하며 배송이 시작되었음을 주문에도 알린다.
   - 주문 생성 시 배송 생성
@@ -25,7 +27,7 @@
 
 ```
 
-## Cloud Native Application Model
+## Cloud Native Application Model(revision_version)
 ![Alt text](cna-bookstore.PNG?raw=true "Optional Title")
 
 ## 구현 점검
@@ -43,6 +45,7 @@ http http://gateway:8080/deliverables
 http http://gateway:8080/stockInputs
 http http://gateway:8080/orders
 http http://gateway:8080/deliveries
+http http://gateway:8080/points(revision_version)
 ```
 
 ### Kafka 기동 및 모니터링 용 Consumer 연결
@@ -347,10 +350,10 @@ CircuitBreaker!!!
  }
 ```
 
-## Autoscale 점검
+## Autoscale 점검(revision_version)
 ### 설정 확인
 ```
-application.yaml 파일 설정 변경
+deployment.yaml 파일 설정 변경
 (https://k8s.io/examples/application/php-apache.yaml 파일 참고)
  resources:
   limits:
@@ -361,13 +364,13 @@ application.yaml 파일 설정 변경
 ### 점검 순서
 ```
 1. HPA 생성 및 설정
-	kubectl autoscale deploy bookinventory --min=1 --max=10 --cpu-percent=30
-	kubectl get hpa bookinventory -o yaml
+	kubectl autoscale deploy point --min=1 --max=10 --cpu-percent=30
+	kubectl get hpa point -o yaml
 2. 모니터링 걸어놓고 확인
-	kubectl get hpa bookinventory -w
+	kubectl get hpa point -w
 	watch kubectl get deploy,po
 3. Siege 실행
-  siege -c10 -t60S -v http://gateway:8080/books/
+  siege -c10 -t60S -v http://gateway:8080/points/
 ```
 ### 점검 결과
 ![Alt text](images/HPA_test.PNG?raw=true "Optional Title")
@@ -377,7 +380,7 @@ application.yaml 파일 설정 변경
 ```
 readinessProbe:
   httpGet:
-    path: '/orders'
+    path: '/points'
     port: 8080
   initialDelaySeconds: 12
   timeoutSeconds: 2
@@ -387,7 +390,7 @@ readinessProbe:
 ### 점검 순서
 #### 1. Siege 실행
 ```
-siege -c2 -t120S  -v 'http://gateway:8080/orders
+siege -c2 -t120S -v 'http://gateway:8080/points
 ```
 #### 2. Readiness 설정 제거 후 배포
 #### 3. Siege 결과 Availability 확인(100% 미만)
