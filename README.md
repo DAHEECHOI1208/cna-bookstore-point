@@ -28,7 +28,7 @@
 ```
 
 ## Cloud Native Application Model(revision_version)
-![Alt text](cna-bookstore.PNG?raw=true "Optional Title")
+![Alt text](msaez.io.PNG?raw=true "Optional Title")
 
 ## 구현 점검
 
