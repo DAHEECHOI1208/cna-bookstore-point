@@ -395,7 +395,7 @@ readinessProbe:
 #### 1. Readiness 설정 제거 후 배포
 #### 2. Siege 실행
 ```
-siege -c2 -t60S -v 'http://gateway:8080/points
+siege -c2 -t60S -v http://gateway:8080/points
 ```
 #### 3. Siege 결과 Availability 확인(100% 미만)
 ```
@@ -403,10 +403,10 @@ siege -c2 -t60S -v 'http://gateway:8080/points
 ```
 #### 4. Readiness 설정 추가 후 재배포
 #### 5. Siege 실행
-siege -c2 -t120S -v 'http://gateway:8080/points
+siege -c2 -t120S -v http://gateway:8080/points
 #### 6. Siege 결과 Availability 확인(100%)
 ```
-![Alt text](readiness.PNG?raw=true "Optional Title")
+![Alt text](readinessY.PNG?raw=true "Optional Title")
 ```
 
 ## Liveness Probe 점검
