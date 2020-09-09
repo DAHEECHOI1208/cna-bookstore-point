@@ -2,7 +2,7 @@ package cnabookstore;
 
 public class Ordered extends AbstractEvent {
 
-    private Long id;
+//    private Long id;
     private Long orderId;
     private Long bookId;
     private Long customerId;
@@ -10,13 +10,13 @@ public class Ordered extends AbstractEvent {
     private String deliveryAddress;
     private String orderStatus;
 
-    public Long getId() {
-        return id;
-    }
+//    public Long getId() {
+//        return id;
+//    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
     public Long getId() {
         return orderId;
     }
