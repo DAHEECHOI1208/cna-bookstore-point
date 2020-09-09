@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: point
-          image: admin16acr.azurecr.io/cna-bookstore-point:latest
+          image: username/point:latest
           ports:
             - containerPort: 8080
           resources:
