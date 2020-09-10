@@ -10,6 +10,7 @@
   - Order -> Point 동기호출
   - Order -> BookInventory 동기호출
   - Customer 서비스가 중지되어 있더라도 주문은 생성하되 주문상태를 "Customer_Not_Verified"로 설정하여 타 서비스로의 전달은 진행하지 않는다.
+  - Point 서비스가 중지되어 있더라도 주문은 생성하되 주문상태를 "Point_Not_Verified"로 설정하여 타 서비스로의 전달은 진행하지 않는다.
 * 주문 시에 재고가 없더라도 주문이 가능하다.
   - 주문 상태는 “Ordered”
 * 주문 취소는 "Ordered" 상태일 경우만 가능하다.
@@ -55,13 +56,13 @@ kubectl -n kafka exec -ti my-kafka-0 -- /usr/bin/kafka-console-consumer --bootst
 
 ### 고객 생성
 ```
-http POST http://gateway:8080/customers customerName="hong gil dong"
-http POST http://gateway:8080/customers customerName="bak na re"
+http POST http://gateway:8080/customers customerName="CDH"
+http POST http://gateway:8080/customers customerName="KJW"
 ```
 
 ### 책 정보 생성
 ```
-$ http POST http://gateway:8080/books bookName="alice in a wonderland" stock=100
+$ http POST http://gateway:8080/books bookName="Alice in a wonderland" stock=100
 HTTP/1.1 201 Created
 Content-Type: application/json;charset=UTF-8
 Date: Wed, 09 Sep 2020 01:53:45 GMT
@@ -77,11 +78,11 @@ transfer-encoding: chunked
             "href": "http://bookinventory:8080/books/1"
         }
     }, 
-    "bookName": "alice in a wonderland", 
+    "bookName": "Alice in a wonderland", 
     "stock": 100
 }
 
-$ http POST http://gateway:8080/books bookName="quobadis?" stock=50
+$ http POST http://gateway:8080/books bookName="Quobadis?" stock=50
 HTTP/1.1 201 Created
 Content-Type: application/json;charset=UTF-8
 Date: Wed, 09 Sep 2020 01:54:38 GMT
@@ -97,7 +98,7 @@ transfer-encoding: chunked
             "href": "http://bookinventory:8080/books/2"
         }
     }, 
-    "bookName": "quobadis?", 
+    "bookName": "Quobadis?", 
     "stock": 50
 }
 
@@ -105,13 +106,13 @@ transfer-encoding: chunked
 
 ### 주문 생성
 ```
-http POST http://gateway:8080/orders bookId=1 customerId=1 deliveryAddress="bundang gu" quantity=50
-http POST http://gateway:8080/orders bookId=1 customerId=2 deliveryAddress="incheon si" quantity=100
+http POST http://gateway:8080/orders bookId=1 customerId=1 deliveryAddress="Bundang" quantity=50
+http POST http://gateway:8080/orders bookId=1 customerId=2 deliveryAddress="Seoul" quantity=100
 ```
 
 ##### Message 전송 확인 결과
 ```
-{"eventType":"Ordered","timestamp":"20200909024119","orderId":4,"bookId":1,"customerId":2,"quantity":100,"deliveryAddress":"incheon si","orderStatus":"ORDERED","me":true}
+{"eventType":"Ordered","timestamp":"20200909024119","orderId":4,"bookId":1,"customerId":2,"quantity":100,"deliveryAddress":"Seoul","orderStatus":"ORDERED","me":true}
 ```
 
 ##### Deliveriy 확인 결과
@@ -126,7 +127,7 @@ root@httpie:/# http http://gateway:8080/deliveraries
             "href": "http://delivery:8080/deliveries/4"
         }
     }, 
-    "deliveryAddress": "incheon si", 
+    "deliveryAddress": "Seoul", 
     "deliveryStatus": "CreateDelivery", 
     "orderId": 4
 }
@@ -186,7 +187,7 @@ transfer-encoding: chunked
             "href": "http://bookinventory:8080/books/1"
         }
     }, 
-    "bookName": "alice in a wonderland", 
+    "bookName": "Alice in a wonderland", 
     "stock": 150
 }
 ```
@@ -210,7 +211,7 @@ transfer-encoding: chunked
     }, 
     "bookId": 1, 
     "customerId": 2, 
-    "deliveryAddress": "incheon si", 
+    "deliveryAddress": "Seoul", 
     "orderStatus": "Shipped", 
     "quantity": 100
 }
@@ -250,7 +251,7 @@ transfer-encoding: chunked
 	kubectl delete deploy customer
 	
 2. 주문 생성
-	root@httpie:/# http POST http://gateway:8080/orders bookId=1 customerId=1 deliveryAddress="bundang gu" quantity=50
+	root@httpie:/# http POST http://gateway:8080/orders bookId=1 customerId=1 deliveryAddress="Bundang" quantity=50
 
 3. 주문 생성 결과 확인
 HTTP/1.1 201 Created
@@ -270,11 +271,19 @@ transfer-encoding: chunked
     }, 
     "bookId": 1, 
     "customerId": 1, 
-    "deliveryAddress": "bundang gu", 
+    "deliveryAddress": "Bundang", 
     "orderStatus": "Customer_Not_Verified", 
     "quantity": 50
 }
 ```
+
+1. Point 서비스 중지(revision)
+	kubectl delete deploy point
+	
+2. 주문 생성
+	root@httpie:/# http POST http://gateway:8080/orders bookId=1 pointId=1 customerId=1 deliveryAddress="Bundang" quantity=50
+
+3. 주문 생성 결과 확인
 
 ## CI/CD 점검
 ![Alt text](azureCI.PNG?raw=true "Optional Title")
