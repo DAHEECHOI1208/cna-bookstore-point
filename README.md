@@ -341,7 +341,7 @@ Content-Length: 7
 Content-Type: text/plain;charset=UTF-8
 Date: Wed, 09 Sep 2020 04:27:53 GMT
 
-Shipped
+10000
 
 root@httpie:/# http http://point:8080/selectPointInfo?pointId=0
 HTTP/1.1 200 
@@ -351,16 +351,10 @@ Date: Wed, 09 Sep 2020 04:28:03 GMT
 
 CircuitBreaker!!!
 
-root@httpie:/# http http://point:8080/selectPointInfo?pointId=1
-HTTP/1.1 200 
-Content-Length: 17
-Content-Type: text/plain;charset=UTF-8
-Date: Wed, 09 Sep 2020 04:28:06 GMT
 
-CircuitBreaker!!!
 
 ```
-
+![Alt text](cb.NG?raw=true "Optional Title")
 ```
 소스 코드
 
@@ -371,13 +365,13 @@ CircuitBreaker!!!
   })
   public String selectPointInfo(@RequestParam long pointId) throws InterruptedException {
 
-   if (deliveryId <= 0) {
+   if pointId= 0) {
     System.out.println("@@@ CircuitBreaker!!!");
     Thread.sleep(10000);
     //throw new RuntimeException("CircuitBreaker!!!");
    } else {
     Optional<Point> point = pointRepository.findById(pointId);
-    return point.get().getPointStatus();
+    return point.get().getPointValue();
    }
 
    System.out.println("$$$ SUCCESS!!!");
