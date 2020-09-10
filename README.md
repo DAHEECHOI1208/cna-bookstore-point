@@ -49,16 +49,20 @@ http http://gateway:8080/deliveries
 http http://gateway:8080/points(revision_version)
 ```
 
+![Alt text](getPoints.PNG?raw=true "Optional Title")
+
 ### Kafka 기동 및 모니터링 용 Consumer 연결
 ```
 kubectl -n kafka exec -ti my-kafka-0 -- /usr/bin/kafka-console-consumer --bootstrap-server my-kafka:9092 --topic cnabookstore --from-beginning
 ```
+![Alt text](getKafka.PNG?raw=true "Optional Title")
 
 ### 고객 생성
 ```
 http POST http://gateway:8080/customers customerName="CDH"
 http POST http://gateway:8080/customers customerName="KJW"
 ```
+![Alt text](getCustomers.PNG?raw=true "Optional Title")
 
 ### 책 정보 생성
 ```
@@ -103,17 +107,20 @@ transfer-encoding: chunked
 }
 
 ```
+![Alt text](getBooks.PNG?raw=true "Optional Title")
 
 ### 주문 생성
 ```
 http POST http://gateway:8080/orders bookId=1 customerId=1 deliveryAddress="Bundang" quantity=50
 http POST http://gateway:8080/orders bookId=1 customerId=2 deliveryAddress="Seoul" quantity=100
 ```
+![Alt text](getOrders.PNG?raw=true "Optional Title")
 
 ##### Message 전송 확인 결과
 ```
 {"eventType":"Ordered","timestamp":"20200909024119","orderId":4,"bookId":1,"customerId":2,"quantity":100,"deliveryAddress":"Seoul","orderStatus":"ORDERED","me":true}
 ```
+![Alt text](getKafka2.PNG?raw=true "Optional Title")
 
 ##### Deliveriy 확인 결과
 ```
@@ -134,6 +141,8 @@ root@httpie:/# http http://gateway:8080/deliveraries
 
 ```
 
+![Alt text](getDeliveries.PNG?raw=true "Optional Title")
+
 ##### Deliverables 확인 결과
 ```
 root@httpie:/# http http://gateway:8080/deliverables
@@ -151,6 +160,7 @@ root@httpie:/# http http://gateway:8080/deliverables
                 "status": "Stock_Lacked"
             }
 ```
+![Alt text](getDeliverables.PNG?raw=true "Optional Title")
 
 ### 주문 준비
 ```
