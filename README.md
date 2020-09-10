@@ -181,6 +181,9 @@ transfer-encoding: chunked
 {"eventType":"DeliveryPrepared","timestamp":"20200909024704","id":null,"orderId":4,"status":"Delivery_Prepared","me":true}
 {"eventType":"DeliveryStatusChanged","timestamp":"20200909024704","id":4,"orderId":4,"deliveryStatus":"Shipped","me":true}
 ```
+![Alt text](geStock.PNG?raw=true "Optional Title")
+![Alt text](geStock2.PNG?raw=true "Optional Title")
+
 ##### 재고 수량 변경 확인 결과
 ```
 root@httpie:/# http http://gateway:8080/books/1 
@@ -201,10 +204,11 @@ transfer-encoding: chunked
     "stock": 150
 }
 ```
+![Alt text](geStock3.PNG?raw=true "Optional Title")
 
 ##### 주문 상태 변경 확인 결과
 ```
-root@httpie:/# http http://gateway:8080/orders/4
+root@httpie:/# http http://gateway:8080/orders/2
 HTTP/1.1 200 OK
 Content-Type: application/hal+json;charset=UTF-8
 Date: Wed, 09 Sep 2020 02:55:30 GMT
@@ -213,10 +217,10 @@ transfer-encoding: chunked
 {
     "_links": {
         "order": {
-            "href": "http://order:8080/orders/4"
+            "href": "http://order:8080/orders/2"
         }, 
         "self": {
-            "href": "http://order:8080/orders/4"
+            "href": "http://order:8080/orders/2"
         }
     }, 
     "bookId": 1, 
@@ -226,7 +230,9 @@ transfer-encoding: chunked
     "quantity": 100
 }
 
-root@httpie:/# http http://gateway:8080/deliverables/5
+![Alt text](geOrderStatus.PNG?raw=true "Optional Title")
+
+root@httpie:/# http http://gateway:8080/deliverables/
 HTTP/1.1 200 OK
 Content-Type: application/hal+json;charset=UTF-8
 Date: Wed, 09 Sep 2020 02:55:07 GMT
@@ -235,10 +241,10 @@ transfer-encoding: chunked
 {
     "_links": {
         "deliverable": {
-            "href": "http://bookinventory:8080/deliverables/5"
+            "href": "http://bookinventory:8080/deliverables/4"
         }, 
         "self": {
-            "href": "http://bookinventory:8080/deliverables/5"
+            "href": "http://bookinventory:8080/deliverables/4
         }
     }, 
     "orderId": 3, 
@@ -246,6 +252,7 @@ transfer-encoding: chunked
     "status": "Delivery_Prepared"
 }
 ```
+![Alt text](geDeliverables2.PNG?raw=true "Optional Title")
 
 ### 배송 상태 변경
 ```
