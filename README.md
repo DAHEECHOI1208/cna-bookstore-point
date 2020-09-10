@@ -411,7 +411,8 @@ deployment.yaml 파일 설정 변경
 	watch kubectl get deploy,po
 3. Siege 실행
   siege -c10 -t60S -v http://gateway:8080/points/
-```
+  ```
+  
 ### 점검 결과
 ![Alt text](autoscale1.PNG?raw=true "Optional Title")
 ![Alt text](autoscale2.PNG?raw=true "Optional Title")
@@ -428,24 +429,29 @@ readinessProbe:
   timeoutSeconds: 2
   periodSeconds: 5
   failureThreshold: 10
-```
+  ```
 ### 점검 순서
+
 #### 1. Readiness 설정 제거 후 배포
+
 #### 2. Siege 실행
 ```
 siege -c2 -t60S -v http://gateway:8080/points
 ```
+
 #### 3. Siege 결과 Availability 확인(100% 미만)
-```
 ![Alt text](readinessN.PNG?raw=true "Optional Title")
-```
+
 #### 4. Readiness 설정 추가 후 재배포
+
 #### 5. Siege 실행
+```
 siege -c2 -t120S -v http://gateway:8080/points
+```
 #### 6. Siege 결과 Availability 확인(100%)
-```
+
 ![Alt text](readinessY.PNG?raw=true "Optional Title")
-```
+
 
 ## Liveness Probe 점검
 ### 설정 확인
