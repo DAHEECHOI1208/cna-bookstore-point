@@ -122,6 +122,13 @@ http POST http://gateway:8080/orders bookId=1 customerId=2 deliveryAddress="Seou
 ```
 ![Alt text](getKafka2.PNG?raw=true "Optional Title")
 
+### 포인트 정보 생성(revision)
+
+http POST http://gateway:8080/points pointId=1 pointValue=10000
+http POST http://gateway:8080/points pointId=2 pointValue=20000
+
+![Alt text](getPoints2.PNG?raw=true "Optional Title")
+
 ##### Deliveriy 확인 결과
 ```
 root@httpie:/# http http://gateway:8080/deliveraries
@@ -254,6 +261,9 @@ transfer-encoding: chunked
 ```
 ![Alt text](geDeliverables2.PNG?raw=true "Optional Title")
 
+### 포인트 조회 및 주문 생성
+
+
 ### 배송 상태 변경
 ```
 ```
@@ -297,10 +307,12 @@ transfer-encoding: chunked
 1. Point 서비스 중지(revision)
 	kubectl delete deploy point
 	
-2. 주문 생성
-	root@httpie:/# http POST http://gateway:8080/orders bookId=1 pointId=1 customerId=1 deliveryAddress="Bundang" quantity=50
+2. 포인트 조회
+	root@httpie:/# http POST http://gateway:8080/orders customerId=1 customerName="CDH" pointId=1
 
-3. 주문 생성 결과 확인
+3. 포인트 조회 결과 확인
+
+![Alt text](pointNotVerified.PNG?raw=true "Optional Title")
 
 ## CI/CD 점검
 ![Alt text](azureCI.PNG?raw=true "Optional Title")
