@@ -361,7 +361,7 @@ CircuitBreaker!!!
 
 
 ```
-![Alt text](cb.NG?raw=true "Optional Title")
+![Alt text](cb.PNG?raw=true "Optional Title")
 ```
 소스 코드
 
