@@ -1,6 +1,6 @@
 package cnabookstore;
 
-import cnabookstore.order.external.CustomerService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,8 +12,7 @@ public class ZombieController {
 
     private boolean flag;
 
-    @Autowired
-    private CustomerService customerService;
+
 
     public ZombieController(){
         flag = true;
@@ -34,12 +33,6 @@ public class ZombieController {
 
     }
 
-    @GetMapping({"/orderService/verifyCustomer/{customerId}"})
-    public @ResponseBody String verifyCustomer(@PathVariable("customerId") Long customerId) {
 
-        customerService.queryCustomer(customerId);
-        return "Success...............";
-
-    }
 
 }
