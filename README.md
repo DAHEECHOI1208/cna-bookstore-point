@@ -468,3 +468,20 @@ HTTP/1.1 200
 Content-Length: 0
 Date: Wed, 09 Sep 2020 02:36:00 GMT
 ```
+## ConfigMap 설정(Semi by TestCode)(revisioning)
+
+kubectl create configmap hello-cm --from-literal=language=java
+kubectl get cm
+kubectl get cm hello-cm -o yaml
+az acr build --registry admin16acr --image admin16acr.azurecr.io/cm-sandbox:v1 .
+nano cm-deployment.yaml
+![Alt text](configmap2.PNG?raw=true "Optional Title")
+
+### 배포 및 서비스 생성
+kubectl create -f cm-deployment.yaml
+kubectl create -f cm-service.yaml
+![Alt text](configmap1.PNG?raw=true "Optional Title")
+
+### 서비스 확인
+Service의 External-IP 접속
+![Alt text](configmap3.PNG?raw=true "Optional Title")
