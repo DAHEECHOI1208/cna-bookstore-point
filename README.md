@@ -262,15 +262,22 @@ transfer-encoding: chunked
 ![Alt text](getDeliverables2.PNG?raw=true "Optional Title")
 
 ### 포인트 조회 및 주문 생성
-
-
-### 배송 상태 변경
 ```
+http POST http://gateway:8080/orders pointId=1 customerId=2
+http POST http://gateway:8080/orders pointId=2 customerId=1
+```
+![Alt text](pointandorder.PNG?raw=true "Optional Title")
+
+### 포인트 값 변경
+```
+
 ```
 
 ### 고객 Mypage 이력 확인
 ```
+http http://gateway:8080/myPages
 ```
+![Alt text](getMyPages.PNG?raw=true "Optional Title")
 
 ### 장애 격리
 ```
