@@ -188,8 +188,8 @@ transfer-encoding: chunked
 {"eventType":"DeliveryPrepared","timestamp":"20200909024704","id":null,"orderId":4,"status":"Delivery_Prepared","me":true}
 {"eventType":"DeliveryStatusChanged","timestamp":"20200909024704","id":4,"orderId":4,"deliveryStatus":"Shipped","me":true}
 ```
-![Alt text](geStock.PNG?raw=true "Optional Title")
-![Alt text](geStock2.PNG?raw=true "Optional Title")
+![Alt text](getStock.PNG?raw=true "Optional Title")
+![Alt text](getStock2.PNG?raw=true "Optional Title")
 
 ##### 재고 수량 변경 확인 결과
 ```
@@ -211,7 +211,7 @@ transfer-encoding: chunked
     "stock": 150
 }
 ```
-![Alt text](geStock3.PNG?raw=true "Optional Title")
+![Alt text](getStock3.PNG?raw=true "Optional Title")
 
 ##### 주문 상태 변경 확인 결과
 ```
@@ -237,7 +237,7 @@ transfer-encoding: chunked
     "quantity": 100
 }
 ```
-![Alt text](geOrderStatus.PNG?raw=true "Optional Title")
+![Alt text](getOrderStatus.PNG?raw=true "Optional Title")
 ```
 root@httpie:/# http http://gateway:8080/deliverables/
 HTTP/1.1 200 OK
@@ -259,7 +259,7 @@ transfer-encoding: chunked
     "status": "Delivery_Prepared"
 }
 ```
-![Alt text](geDeliverables2.PNG?raw=true "Optional Title")
+![Alt text](getDeliverables2.PNG?raw=true "Optional Title")
 
 ### 포인트 조회 및 주문 생성
 
