@@ -236,9 +236,9 @@ transfer-encoding: chunked
     "orderStatus": "Shipped", 
     "quantity": 100
 }
-
+```
 ![Alt text](geOrderStatus.PNG?raw=true "Optional Title")
-
+```
 root@httpie:/# http http://gateway:8080/deliverables/
 HTTP/1.1 200 OK
 Content-Type: application/hal+json;charset=UTF-8
