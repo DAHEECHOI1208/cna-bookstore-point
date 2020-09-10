@@ -325,7 +325,7 @@ Hystrix Command
 	5000ms 이상 Timeout 발생 시 CircuitBearker 발동
 
 CircuitBeaker 발생
-	http http://delivery:8080/selectDeliveryInfo?deliveryId=1
+	http http://point:8080/selectPointInfo?pointId=1
 		- 잘못된 쿼리 수행 시 CircuitBeaker
 		- 10000ms(10sec) Sleep 수행
 		- 5000ms Timeout으로 CircuitBeaker 발동
@@ -335,7 +335,7 @@ CircuitBeaker 발생
 ```
 실행 결과
 
-root@httpie:/# http http://delivery:8080/selectDeliveryInfo?deliveryId=1
+root@httpie:/# http http://point:8080/selectPointInfo?pointId=1
 HTTP/1.1 200 
 Content-Length: 7
 Content-Type: text/plain;charset=UTF-8
@@ -343,7 +343,7 @@ Date: Wed, 09 Sep 2020 04:27:53 GMT
 
 Shipped
 
-root@httpie:/# http http://delivery:8080/selectDeliveryInfo?deliveryId=0
+root@httpie:/# http http://point:8080/selectPointInfo?pointId=0
 HTTP/1.1 200 
 Content-Length: 17
 Content-Type: text/plain;charset=UTF-8
@@ -351,7 +351,7 @@ Date: Wed, 09 Sep 2020 04:28:03 GMT
 
 CircuitBreaker!!!
 
-root@httpie:/# http http://delivery:8080/selectDeliveryInfo?deliveryId=1
+root@httpie:/# http http://point:8080/selectPointInfo?pointId=1
 HTTP/1.1 200 
 Content-Length: 17
 Content-Type: text/plain;charset=UTF-8
@@ -364,27 +364,27 @@ CircuitBreaker!!!
 ```
 소스 코드
 
-@GetMapping("/selectDeliveryInfo")
-  @HystrixCommand(fallbackMethod = "fallbackDelivery", commandProperties = {
+@GetMapping("/selectPointInfo")
+  @HystrixCommand(fallbackMethod = "fallbackPoint", commandProperties = {
           @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000"),
           @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000")
   })
-  public String selectDeliveryInfo(@RequestParam long deliveryId) throws InterruptedException {
+  public String selectPointInfo(@RequestParam long pointId) throws InterruptedException {
 
    if (deliveryId <= 0) {
     System.out.println("@@@ CircuitBreaker!!!");
     Thread.sleep(10000);
     //throw new RuntimeException("CircuitBreaker!!!");
    } else {
-    Optional<Delivery> delivery = deliveryRepository.findById(deliveryId);
-    return delivery.get().getDeliveryStatus();
+    Optional<Point> point = pointRepository.findById(pointId);
+    return point.get().getPointStatus();
    }
 
    System.out.println("$$$ SUCCESS!!!");
    return " SUCCESS!!!";
   }
 
- private String fallbackDelivery(long deliveryId) {
+ private String fallbackPoint(long pointId) {
   System.out.println("### fallback!!!");
   return "CircuitBreaker!!!";
  }
