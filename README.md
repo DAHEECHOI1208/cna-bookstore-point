@@ -270,8 +270,9 @@ http POST http://gateway:8080/orders pointId=2 customerId=1
 
 ### 포인트 값 변경
 ```
-
 ```
+![Alt text](pointValueChanged.PNG?raw=true "Optional Title")
+
 
 ### 고객 Mypage 이력 확인
 ```
