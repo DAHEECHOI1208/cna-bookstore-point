@@ -470,26 +470,29 @@ livenessProbe:
 ### 점검 순서 및 결과
 #### 1. 기동 확인
 ```
-http http://gateway:8080/orders
+http http://gateway:8080/points
 ```
 #### 2. 상태 확인
 ```
-oot@httpie:/# http http://order:8080/isHealthy
+oot@httpie:/# http http://point:8080/isHealthy
 HTTP/1.1 200 
 Content-Length: 0
 Date: Wed, 09 Sep 2020 02:14:22 GMT
 ```
+![Alt text](isHealthy.PNG?raw=true "Optional Title")
 
 #### 3. 상태 변경
 ```
-root@httpie:/# http http://order:8080/makeZombie
+root@httpie:/# http http://point:8080/makeZombie
 HTTP/1.1 200 
 Content-Length: 0
 Date: Wed, 09 Sep 2020 02:14:24 GMT
 ```
+![Alt text](makeZombie.PNG?raw=true "Optional Title")
+
 #### 4. 상태 확인
 ```
-root@httpie:/# http http://order:8080/isHealthy
+root@httpie:/# http http://point:8080/isHealthy
 HTTP/1.1 500 
 Connection: close
 Content-Type: application/json;charset=UTF-8
@@ -506,7 +509,7 @@ Transfer-Encoding: chunked
 ```
 #### 5. Pod 재기동 확인
 ```
-root@httpie:/# http http://order:8080/isHealthy
+root@httpie:/# http http://point:8080/isHealthy
 http: error: ConnectionError: HTTPConnectionPool(host='order', port=8080): Max retries exceeded with url: /makeZombie (Caused by NewConnectionError('<requests.packages.urllib3.connection.HTTPConnection object at 0x7f5196111c50>: Failed to establish a new connection: [Errno 111] Connection refused',))
 
 root@httpie:/# http http://order:8080/isHealthy
@@ -514,6 +517,8 @@ HTTP/1.1 200
 Content-Length: 0
 Date: Wed, 09 Sep 2020 02:36:00 GMT
 ```
+![Alt text](liveness.PNG?raw=true "Optional Title")
+
 ## ConfigMap 설정(Semi by TestCode)(revisioning)
 
 kubectl create configmap hello-cm --from-literal=language=java
