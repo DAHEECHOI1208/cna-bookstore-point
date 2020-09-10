@@ -1,9 +1,7 @@
 package cnabookstore;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
@@ -41,5 +39,11 @@ import java.util.Optional;
   return "CircuitBreaker!!!";
  }
 
+
+ @GetMapping("/points/{pointId}")
+ public Point queryPoint(@PathVariable("pointId") Long pointId) {
+  Optional<Point> point = pointRepository.findById(pointId);
+  return point.get();
+ }
 
  }
